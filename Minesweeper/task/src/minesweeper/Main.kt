@@ -8,13 +8,11 @@ fun main() {
     println("How many mines do you want on the field? ")
     val mines: Int = readLine()!!.toInt()
 
-    val minefield = Minefield(9,9)
+    Minefield.generateMines(mines)
 
-    minefield.generateMines(mines)
+    Minefield.generateHints()
 
-    minefield.generateHints()
-
-    minefield.printField()
+    Minefield.printField()
 
 }
 

@@ -4,7 +4,10 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
 
-class Minefield (width: Int = 9, height: Int = 9) {
+object Minefield  {
+
+    private const val width = 9
+    private const val height = 9
 
     private val grid = Array(height) {
         Array(width) { '.' }
@@ -24,7 +27,7 @@ class Minefield (width: Int = 9, height: Int = 9) {
 
     }
 
-    fun toggleCell(x: Int, y: Int , value: Char ='X'): Boolean{
+    private fun toggleCell(x: Int, y: Int, value: Char ='X'): Boolean{
 
         if (this.grid[y][x] == '.'){
             this.grid[y][x] = value
@@ -33,7 +36,7 @@ class Minefield (width: Int = 9, height: Int = 9) {
         return false
     }
 
-    fun calculateBombNeighbors(x:Int, y:Int):Int {
+    private fun calculateBombNeighbors(x:Int, y:Int):Int {
         val rows = this.grid.size
         val cols = this.grid[0].size
 
