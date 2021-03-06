@@ -57,21 +57,20 @@ object Minefield {
         println("Congratulations! You found all the mines!")
     }
 
-    private fun flagCell(): Boolean {
+    private fun flagCell() {
 
         val scanner = Scanner(System.`in`)
         println("Set/delete mines marks (x and y coordinates): ")
         val x = scanner.nextInt() - 1
         val y = scanner.nextInt() - 1
 
-        return when {
+        when {
             this.playerGrid[y][x] == '.' -> {
                 this.playerGrid[y][x] = '*'
 
                 if (this.grid[y][x] == 'X') {
                     hiddenMines--
                 }
-                true
             }
             this.playerGrid[y][x] == '*' -> {
                 this.playerGrid[y][x] = '.'
@@ -80,7 +79,6 @@ object Minefield {
                     hiddenMines++
                 }
 
-                true
             }
             else -> {
                 println("There is a number here!")
