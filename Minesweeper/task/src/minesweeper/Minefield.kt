@@ -36,22 +36,10 @@ object Minefield {
 
     }
 
-    private fun toggleCellGrid(x: Int, y: Int, value: Char = 'X'): Boolean {
-
-        if (this.grid[y][x] == '.') {
-            this.grid[y][x] = value
-            return true
-        }
-        return false
-    }
-
     private fun toggleCell(x: Int, y: Int, value: Char = 'X'): Boolean {
 
         if (this.grid[y][x] == '.') {
             this.grid[y][x] = value
-            if (value != 'X') {
-                this.playerGrid[y][x] = value
-            }
             return true
         }
         return false
@@ -183,7 +171,7 @@ object Minefield {
                 val bombNeighbors = calculateBombNeighbors(x, y)
 
                 if (bombNeighbors > 0) {
-                    toggleCellGrid(x, y, bombNeighbors.toString()[0])
+                    toggleCell(x, y, bombNeighbors.toString()[0])
 
                 }
 
