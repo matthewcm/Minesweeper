@@ -141,6 +141,9 @@ files:
         }
     }
   learner_created: false
+- name: src/minesweeper/Minefield.kt
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/8/stages/48/implement#comment
 status: Solved
 feedback:
