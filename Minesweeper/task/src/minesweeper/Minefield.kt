@@ -36,6 +36,14 @@ object Minefield {
 
     }
 
+    private fun toggleCellGrid(x: Int, y: Int, value: Char = 'X'): Boolean {
+
+        if (this.grid[y][x] == '.') {
+            this.grid[y][x] = value
+            return true
+        }
+        return false
+    }
     private fun toggleCell(x: Int, y: Int, value: Char = 'X'): Boolean {
 
         if (this.grid[y][x] == '.') {
@@ -50,20 +58,58 @@ object Minefield {
 
     fun play() {
         while (hiddenMines > 0) {
-            flagCell()
+            move()
             printField()
+
+            var numUnexplored = 0
+            for (row in this.playerGrid) {
+                for (cell in row) {
+                    if (cell == '.'){
+                        numUnexplored ++
+                    }
+                }
+            }
+            if (numUnexplored == hiddenMines){
+                hiddenMines = 0
+            }
         }
 
         println("Congratulations! You found all the mines!")
     }
 
-    private fun flagCell() {
+    private fun exploreNeighbors(x:Int, y:Int){
+        val rows = this.grid.size
+        val cols = this.grid[0].size
 
-        val scanner = Scanner(System.`in`)
-        println("Set/delete mines marks (x and y coordinates): ")
-        val x = scanner.nextInt() - 1
-        val y = scanner.nextInt() - 1
+        if (this.grid[y][x] == '.') {
+            this.playerGrid[y][x] = '/'
+        }else if (this.grid[y][x] == 'X') {
+        }else {
+            this.playerGrid[y][x] = this.grid[y][x]
+        }
+        for (ny in max(0, y - 1) until min(rows, y + 2)) {
+            for (nx in max(0, x - 1) until min(cols, x + 2)) {
+                if (!(ny == y && nx == x)) {
+                    if (this.grid[ny][nx] != 'X' && (this.playerGrid[ny][nx] == '.' || this.playerGrid[ny][nx] == '*')) {
+                        this.exploreNeighbors(nx, ny)
+                    }
+                }
+            }
+        }
+    }
+    private fun explore(x:Int, y: Int) {
+        when (this.playerGrid[y][x]) {
+            'X'-> {
+                println("You stepped on a mine and failed")
+//                Show grid with X mines
+            }
+            else -> {
+                exploreNeighbors(x,y)
+            }
+        }
 
+    }
+    private fun mine(x:Int, y: Int) {
         when {
             this.playerGrid[y][x] == '.' -> {
                 this.playerGrid[y][x] = '*'
@@ -82,9 +128,26 @@ object Minefield {
             }
             else -> {
                 println("There is a number here!")
-                flagCell()
+                move()
             }
         }
+
+    }
+    private fun move() {
+
+        val scanner = Scanner(System.`in`)
+        println("Set/delete mine marks or claim a cell as free: ")
+        val x = scanner.nextInt() - 1
+        val y = scanner.nextInt() - 1
+        val command = scanner.next()
+
+        if (command == "mine"){
+            mine(x, y)
+        }else if(command == "free"){
+            explore(x,y)
+        }
+
+
     }
 
     private fun calculateBombNeighbors(x: Int, y: Int): Int {
@@ -112,7 +175,7 @@ object Minefield {
                 val bombNeighbors = calculateBombNeighbors(x, y)
 
                 if (bombNeighbors > 0) {
-                    toggleCell(x, y, bombNeighbors.toString()[0])
+                    toggleCellGrid(x, y, bombNeighbors.toString()[0])
 
                 }
 
