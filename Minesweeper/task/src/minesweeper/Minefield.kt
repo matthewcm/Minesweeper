@@ -95,7 +95,6 @@ object Minefield {
         when (this.playerGrid[y][x]) {
             'X' -> {
                 println("You stepped on a mine and failed")
-//                Show grid with X mines
             }
             else -> {
                 exploreNeighbors(x, y)
